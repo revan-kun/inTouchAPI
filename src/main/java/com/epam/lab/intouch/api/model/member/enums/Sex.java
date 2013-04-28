@@ -1,4 +1,4 @@
-package com.epam.lab.intouch.api.model.lib;
+package main.java.com.epam.lab.intouch.api.model.member.enums;
 
 public enum Sex {
 	MALE, FEMALE;

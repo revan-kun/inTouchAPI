@@ -1,13 +1,16 @@
-package com.epam.lab.intouch.api.model.lib;
+package main.java.com.epam.lab.intouch.api.model.member;
 
 import java.util.Date;
+
+import main.java.com.epam.lab.intouch.api.model.member.enums.Role;
+import main.java.com.epam.lab.intouch.api.model.member.enums.Sex;
 
 /**
  * @author Revan
  *
  * @version 0.2
  */
-public class SimpleMember {
+public class Member {
 
 	private String login;
 	private String password;
@@ -22,11 +25,11 @@ public class SimpleMember {
 	private Date birthday;
 	private Date registrationDate;
 
-	public SimpleMember() {
+	public Member() {
 
 	}
 	
-	public SimpleMember(final String login, final String password) {
+	public Member(final String login, final String password) {
 		this.login = login;
 		this.password = password;
 	}
