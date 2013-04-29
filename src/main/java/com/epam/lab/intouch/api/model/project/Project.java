@@ -3,16 +3,39 @@ package main.java.com.epam.lab.intouch.api.model.project;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import main.java.com.epam.lab.intouch.api.model.member.Member;
 import main.java.com.epam.lab.intouch.api.model.project.enums.ProjectStatus;
 
 public class Project {
+	@Expose
+	@SerializedName("id")
 	private Long id;
+	
+	@Expose
+	@SerializedName("projectName")
 	private String projectName;
+	
+	@Expose
+	@SerializedName("creationDate")
 	private Date creationDate;
+	
+	@Expose
+	@SerializedName("completionDate")
 	private Date completionDate;
+	
+	@Expose
+	@SerializedName("description")
 	private String description;
+	
+	@Expose
+	@SerializedName("members")
 	private List<Member> members;
+	
+	@Expose
+	@SerializedName("status")
 	private ProjectStatus status;
 
 	public Long getId() {
