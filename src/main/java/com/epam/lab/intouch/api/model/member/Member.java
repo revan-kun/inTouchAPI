@@ -1,13 +1,13 @@
-package main.java.com.epam.lab.intouch.api.model.member;
+package com.epam.lab.intouch.api.model.member;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.epam.lab.intouch.api.model.member.enums.Role;
+import com.epam.lab.intouch.api.model.project.Project;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import main.java.com.epam.lab.intouch.api.model.member.enums.Role;
-import main.java.com.epam.lab.intouch.api.model.project.Project;
 
 public class Member {
 	@Expose
@@ -91,4 +91,21 @@ public class Member {
 		this.activeProjects = activeProjects;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb=new StringBuilder();
+		sb.append("\n Member login: ").append(login)
+		.append("\n Name: ").append(firstName)
+		.append("\n Surname: ").append(lastName)
+		.append("\n Project role: ").append(projectRole)
+		.append("\n Member projects: ");
+		
+		for(Project project: activeProjects){
+			sb.append(project.toString());
+		}
+		
+		return sb.toString();
+	}
+
+	
 }

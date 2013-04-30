@@ -1,4 +1,4 @@
-package main.java.com.epam.lab.intouch.api.model.member.enums;
+package com.epam.lab.intouch.api.model.member.enums;
 
 public enum Role {
 	DEVELOPER, TESTER, MANAGER;

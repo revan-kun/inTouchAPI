@@ -1,13 +1,13 @@
-package main.java.com.epam.lab.intouch.api.model.project;
+package com.epam.lab.intouch.api.model.project;
 
 import java.util.Date;
 import java.util.List;
 
+import com.epam.lab.intouch.api.model.member.Member;
+import com.epam.lab.intouch.api.model.project.enums.ProjectStatus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import main.java.com.epam.lab.intouch.api.model.member.Member;
-import main.java.com.epam.lab.intouch.api.model.project.enums.ProjectStatus;
 
 public class Project {
 	@Expose
@@ -94,4 +94,33 @@ public class Project {
 		this.status = status;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb=new StringBuilder();
+		sb.append("\n\tId: ").append(id)
+		.append("\n\tProject name: ").append(projectName)
+		.append("\n\tCreation date: ").append(creationDate)
+		.append("\n\tCompletion date: ").append(completionDate)
+		.append("\n\tDescription: ").append(description)
+		.append("\n\tStatus: ").append(status)
+		.append("\n\tMembers in project: ");
+		
+		int i=1;
+		for(Member member:members){
+			StringBuilder memberStringBuilder=new StringBuilder();
+			memberStringBuilder.append("\n\tMember #").append(i)
+			.append("\n\t\tLogin: ").append(member.getLogin())
+			.append("\n\t\tName: ").append(member.getFirstName())
+			.append("\n\t\tSurname: ").append(member.getLastName())
+			.append("\n\t\tProject role: ").append(member.getRole());
+			
+			sb.append(memberStringBuilder.toString());
+			
+			i++;
+		}
+		
+		return sb.toString();
+	}
+
+	
 }

@@ -1,4 +1,4 @@
-package main.java.com.epam.lab.intouch.api.model.project.enums;
+package com.epam.lab.intouch.api.model.project.enums;
 
 public enum ProjectStatus {
 	OPEN, CLOSED, FROZEN, ABANDONED;
