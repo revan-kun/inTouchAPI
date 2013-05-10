@@ -15,6 +15,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import com.epam.lab.intouch.api.model.member.Member;
+import com.epam.lab.intouch.api.service.util.Attribute;
+import com.epam.lab.intouch.api.service.util.PropertyConfigurator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -27,14 +29,17 @@ public class MemberService {
 	}
 
 	public Member login(Member member) throws IOException {
+		String host = PropertyConfigurator.getProperty("host");
+		String port = PropertyConfigurator.getProperty("port");
+		
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-		params.add(new BasicNameValuePair("userlogin", member.getLogin()));
-		params.add(new BasicNameValuePair("password", member.getPassword()));
+		params.add(new BasicNameValuePair(Attribute.MEMBER_LOGIN, member.getLogin()));
+		params.add(new BasicNameValuePair(Attribute.PASSWORD_LOGIN, member.getPassword()));
 
 		UrlEncodedFormEntity encodedEntity = new UrlEncodedFormEntity(params, "UTF-8");
-		//HttpPost httpPost = new HttpPost("http://intouch.j.rsnx.ru/inTouchAPI/rest/login");
-		HttpPost httpPost = new HttpPost("http://localhost:8080/InTouch/rest/login");
+		// HttpPost httpPost = new HttpPost("http://intouch.j.rsnx.ru/inTouchAPI/rest/login");
+		HttpPost httpPost = new HttpPost("http://" + host + ":" + port + "/InTouch/rest/login");
 		httpPost.setEntity(encodedEntity);
 
 		HttpClient client = new DefaultHttpClient();

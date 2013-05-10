@@ -10,6 +10,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import com.epam.lab.intouch.api.model.project.Project;
+import com.epam.lab.intouch.api.service.util.Attribute;
+import com.epam.lab.intouch.api.service.util.PropertyConfigurator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -23,14 +25,17 @@ public class ProjectService {
 	public Project getProgect(Project project) throws IOException {
 		Long projectID = project.getId();
 
-		HttpGet httpget = new HttpGet("http://localhost:8080/InTouch/rest/project?projectID=" + projectID);
+		String host = PropertyConfigurator.getProperty("host");
+		String port = PropertyConfigurator.getProperty("port");
+	
+		HttpGet httpget = new HttpGet("http://" + host + ":" + port + "/InTouch/rest/project?" + Attribute.PROJECT_ID + "=" + projectID);
 
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse response = client.execute(httpget);
 
 		HttpEntity gsonEntity = response.getEntity();
 		String gsonString = EntityUtils.toString(gsonEntity, "UTF-8");
-
+		
 		GsonBuilder builder = new GsonBuilder();
 		builder.excludeFieldsWithoutExposeAnnotation();
 
