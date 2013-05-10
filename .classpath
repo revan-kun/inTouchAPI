@@ -7,14 +7,10 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/gson-2.2.3.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/httpclient-4.2.5.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/Users/jhgjg/Desktop/httpcomponents-client-4.2.5/javadoc/org/apache/http/client/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/httpcore-4.2.4.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.2.5.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.2.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
