@@ -1,6 +1,5 @@
 package com.epam.lab.intouch.api.model.project;
 
-import java.util.Date;
 import java.util.List;
 
 import com.epam.lab.intouch.api.model.member.Member;
@@ -16,10 +15,6 @@ public class Project {
 	@Expose
 	@SerializedName("projectName")
 	private String projectName;
-
-	private Date creationDate;
-
-	private Date completionDate;
 
 	@Expose
 	@SerializedName("description")
@@ -47,22 +42,6 @@ public class Project {
 
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
-	}
-
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public Date getCompletionDate() {
-		return completionDate;
-	}
-
-	public void setCompletionDate(Date completionDate) {
-		this.completionDate = completionDate;
 	}
 
 	public String getDescription() {
