@@ -31,14 +31,13 @@ public class MemberService {
 	public Member login(Member member) throws IOException {
 		String host = PropertyConfigurator.getProperty("host");
 		String port = PropertyConfigurator.getProperty("port");
-		
+
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 
 		params.add(new BasicNameValuePair(Attribute.MEMBER_LOGIN, member.getLogin()));
 		params.add(new BasicNameValuePair(Attribute.PASSWORD_LOGIN, member.getPassword()));
 
 		UrlEncodedFormEntity encodedEntity = new UrlEncodedFormEntity(params, "UTF-8");
-		// HttpPost httpPost = new HttpPost("http://intouch.j.rsnx.ru/inTouchAPI/rest/login");
 		HttpPost httpPost = new HttpPost("http://" + host + ":" + port + "/InTouch/rest/login");
 		httpPost.setEntity(encodedEntity);
 
