@@ -9,6 +9,12 @@ public class PropertyConfigurator {
 	public static String getProperty(String key) throws IOException {
 		Properties property = new Properties();
 		property.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(CONFIG_PROPERTY));
-		return property.getProperty(key);
+		String prop = property.getProperty(key);
+
+		if (prop == null) {
+			prop = "";
+		}
+
+		return prop;
 	}
 }

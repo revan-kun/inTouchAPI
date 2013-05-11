@@ -16,11 +16,12 @@ import org.apache.http.util.EntityUtils;
 
 import com.epam.lab.intouch.api.model.member.Member;
 import com.epam.lab.intouch.api.service.util.Attribute;
-import com.epam.lab.intouch.api.service.util.PropertyConfigurator;
+import static com.epam.lab.intouch.api.service.util.PropertyConfigurator.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class MemberService {
+
 	public Member login(String login, String password) throws IOException {
 		Member member = new Member();
 		member.setLogin(login);
@@ -29,8 +30,10 @@ public class MemberService {
 	}
 
 	public Member login(Member member) throws IOException {
-		String host = PropertyConfigurator.getProperty("host");
-		String port = PropertyConfigurator.getProperty("port");
+
+		StringBuilder urlBuilder = new StringBuilder();
+		urlBuilder.append(getProperty("protocol")).append(getProperty("host")).append(getProperty("port.separator")).append(getProperty("port"))
+				.append(getProperty("root.path")).append(getProperty("rest.path")).append(getProperty("rest.login"));
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -38,7 +41,7 @@ public class MemberService {
 		params.add(new BasicNameValuePair(Attribute.PASSWORD_LOGIN, member.getPassword()));
 
 		UrlEncodedFormEntity encodedEntity = new UrlEncodedFormEntity(params, "UTF-8");
-		HttpPost httpPost = new HttpPost("http://" + host + ":" + port + "/InTouch/rest/login");
+		HttpPost httpPost = new HttpPost(urlBuilder.toString());
 		httpPost.setEntity(encodedEntity);
 
 		HttpClient client = new DefaultHttpClient();
