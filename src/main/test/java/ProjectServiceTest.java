@@ -8,7 +8,7 @@ public class ProjectServiceTest {
 	public static void main(String[] args) {
 		ProjectService projectService=new ProjectService();
 		try {
-			System.out.println(projectService.getProgect(4L));
+			System.out.println(projectService.getProgect(3L));
 		} catch (IOException e) {
 			System.out.println("fail");
 		}
