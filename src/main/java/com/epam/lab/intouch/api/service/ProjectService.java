@@ -17,11 +17,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class ProjectService {
-	private String getURL(Long projectID) throws IOException {
+	private static final String LIGHT_PROJECT = "lightProject";
+	private static final String MIDDLE_PROJECT = "middleProject";
+
+	private String getURL(Long projectID, String projectType) throws IOException {
 		StringBuilder urlBuilder = new StringBuilder();
 		urlBuilder.append(getProperty("protocol")).append(getProperty("host")).append(getProperty("port.separator")).append(getProperty("port"))
 				.append(getProperty("root.path")).append(getProperty("rest.path")).append(getProperty("rest.project")).append("?").append(Attribute.PROJECT_ID)
-				.append("=").append(projectID);
+				.append("=").append(projectID).append("&").append(Attribute.PROJECT_TYPE).append("=").append(projectType);
 		return urlBuilder.toString();
 	}
 
@@ -35,10 +38,10 @@ public class ProjectService {
 		return deserializedProject;
 	}
 
-	public Project getProgect(Project project) throws IOException {
+	public Project getProgect(Project project, String projectType) throws IOException {
 		Long projectID = project.getId();
 
-		HttpGet httpget = new HttpGet(getURL(projectID));
+		HttpGet httpget = new HttpGet(getURL(projectID, projectType));
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse response = client.execute(httpget);
 
@@ -52,9 +55,16 @@ public class ProjectService {
 		return deserializedProject;
 	}
 
+	public Project getProgectInfo(Long id) throws IOException {
+		Project project = new Project();
+		project.setId(id);
+		return getProgect(project, LIGHT_PROJECT);
+	}
+
 	public Project getProgect(Long id) throws IOException {
 		Project project = new Project();
 		project.setId(id);
-		return getProgect(project);
+		return getProgect(project, MIDDLE_PROJECT);
 	}
+
 }

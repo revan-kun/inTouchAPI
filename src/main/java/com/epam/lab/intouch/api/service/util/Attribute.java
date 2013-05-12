@@ -6,4 +6,6 @@ public class Attribute {
 	public static final String MEMBER_TYPE = "memberType";
 
 	public static final String PROJECT_ID = "projectID";
+	public static final String PROJECT_TYPE = "projectType";
+	
 }

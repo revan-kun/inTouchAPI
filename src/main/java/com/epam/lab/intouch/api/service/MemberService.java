@@ -30,6 +30,7 @@ public class MemberService {
 		StringBuilder urlBuilder = new StringBuilder();
 		urlBuilder.append(getProperty("protocol")).append(getProperty("host")).append(getProperty("port.separator")).append(getProperty("port"))
 				.append(getProperty("root.path")).append(getProperty("rest.path")).append(getProperty("rest.login"));
+		
 		return urlBuilder.toString();
 	}
 
@@ -65,7 +66,7 @@ public class MemberService {
 
 		HttpEntity gsonEntity = response.getEntity();
 		String gsonString = EntityUtils.toString(gsonEntity, "UTF-8");
-
+		
 		Member loginedMember = deserializeMember(gsonString);
 
 		EntityUtils.consume(gsonEntity);
