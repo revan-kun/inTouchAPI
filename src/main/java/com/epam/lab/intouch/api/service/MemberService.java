@@ -3,6 +3,7 @@ package com.epam.lab.intouch.api.service;
 import static com.epam.lab.intouch.api.service.util.PropertyConfigurator.getProperty;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,17 +27,17 @@ public class MemberService {
 	private static final String MIDDLE_MEMBER = "middleMember";
 	private static final String HEAVY_MEMBER = "heavyMember";
 
-	private String getURL() throws IOException {
+	private String getURL(String restServiceName) throws IOException {
 		StringBuilder urlBuilder = new StringBuilder();
 		urlBuilder.append(getProperty("protocol")).append(getProperty("host")).append(getProperty("port.separator")).append(getProperty("port"))
-				.append(getProperty("root.path")).append(getProperty("rest.path")).append(getProperty("rest.login"));
-		
+				.append(getProperty("root.path")).append(getProperty("rest.path")).append(getProperty(restServiceName));
+
 		return urlBuilder.toString();
 	}
 
-	private HttpResponse executeRequest(List<NameValuePair> params) throws IOException {
+	private HttpResponse executeRequest(List<NameValuePair> params, String restServiceName) throws IOException {
 		UrlEncodedFormEntity encodedEntity = new UrlEncodedFormEntity(params, "UTF-8");
-		HttpPost httpPost = new HttpPost(getURL());
+		HttpPost httpPost = new HttpPost(getURL(restServiceName));
 		httpPost.setEntity(encodedEntity);
 
 		HttpClient client = new DefaultHttpClient();
@@ -62,11 +63,11 @@ public class MemberService {
 		params.add(new BasicNameValuePair(Attribute.PASSWORD_LOGIN, member.getPassword()));
 		params.add(new BasicNameValuePair(Attribute.MEMBER_TYPE, memberType));
 
-		HttpResponse response = executeRequest(params);
+		HttpResponse response = executeRequest(params, "rest.login");
 
 		HttpEntity gsonEntity = response.getEntity();
 		String gsonString = EntityUtils.toString(gsonEntity, "UTF-8");
-		
+
 		Member loginedMember = deserializeMember(gsonString);
 
 		EntityUtils.consume(gsonEntity);
@@ -107,6 +108,30 @@ public class MemberService {
 
 	public Member getMiddleweightMember(String login, String password) throws IOException {
 		return getMiddleweightMember(buildMember(login, password));
+	}
+
+	public InputStream getPhoto(String login, String password) throws IOException {
+		return getPhoto(buildMember(login, password));
+	}
+
+	public InputStream getPhoto(Member member) throws IOException {
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+		params.add(new BasicNameValuePair(Attribute.MEMBER_LOGIN, member.getLogin()));
+		params.add(new BasicNameValuePair(Attribute.PASSWORD_LOGIN, member.getPassword()));
+
+		HttpResponse response = executeRequest(params, getProperty("rest.photo"));
+
+		HttpEntity imageEntity = response.getEntity();
+
+		InputStream instream = null;
+		if (imageEntity != null) {
+			instream = imageEntity.getContent();
+		}
+
+		EntityUtils.consume(imageEntity);
+
+		return instream;
 	}
 
 }
