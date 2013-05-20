@@ -4,6 +4,7 @@ import static com.epam.lab.intouch.api.service.util.PropertyConfigurator.getProp
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +27,12 @@ public class MemberService {
 	private static final String LIGHT_MEMBER = "lightMember";
 	private static final String MIDDLE_MEMBER = "middleMember";
 	private static final String HEAVY_MEMBER = "heavyMember";
+	private static final String MEMBER_LOGIN = "memberLogin";
 
 	private String getURL(String restServiceName) throws IOException {
 		StringBuilder urlBuilder = new StringBuilder();
 		urlBuilder.append(getProperty("protocol")).append(getProperty("host")).append(getProperty("port.separator")).append(getProperty("port"))
-				.append(getProperty("root.path")).append(getProperty("rest.path")).append(getProperty(restServiceName));
-
+				.append(getProperty("root.path")).append(getProperty("rest.path")).append(restServiceName);
 		return urlBuilder.toString();
 	}
 
@@ -39,7 +40,6 @@ public class MemberService {
 		UrlEncodedFormEntity encodedEntity = new UrlEncodedFormEntity(params, "UTF-8");
 		HttpPost httpPost = new HttpPost(getURL(restServiceName));
 		httpPost.setEntity(encodedEntity);
-
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse response = client.execute(httpPost);
 
@@ -63,7 +63,7 @@ public class MemberService {
 		params.add(new BasicNameValuePair(Attribute.PASSWORD_LOGIN, member.getPassword()));
 		params.add(new BasicNameValuePair(Attribute.MEMBER_TYPE, memberType));
 
-		HttpResponse response = executeRequest(params, "rest.login");
+		HttpResponse response = executeRequest(params, getProperty("rest.login"));
 
 		HttpEntity gsonEntity = response.getEntity();
 		String gsonString = EntityUtils.toString(gsonEntity, "UTF-8");
@@ -110,28 +110,20 @@ public class MemberService {
 		return getMiddleweightMember(buildMember(login, password));
 	}
 
-	public InputStream getPhoto(String login, String password) throws IOException {
-		return getPhoto(buildMember(login, password));
+	public InputStream getPhoto(String login) throws IOException {
+		Member member = new Member();
+		member.setLogin(login);
+
+		return getPhoto(member);
 	}
 
 	public InputStream getPhoto(Member member) throws IOException {
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		StringBuilder urlBuilder = new StringBuilder();
 
-		params.add(new BasicNameValuePair(Attribute.MEMBER_LOGIN, member.getLogin()));
-		params.add(new BasicNameValuePair(Attribute.PASSWORD_LOGIN, member.getPassword()));
+		String url = getURL(getProperty("rest.photo"));
+		urlBuilder.append(url).append("?").append(MEMBER_LOGIN).append("=").append(member.getLogin());
 
-		HttpResponse response = executeRequest(params, getProperty("rest.photo"));
-
-		HttpEntity imageEntity = response.getEntity();
-
-		InputStream instream = null;
-		if (imageEntity != null) {
-			instream = imageEntity.getContent();
-		}
-
-		EntityUtils.consume(imageEntity);
-
-		return instream;
+		return new URL(urlBuilder.toString()).openStream();
 	}
 
 }
