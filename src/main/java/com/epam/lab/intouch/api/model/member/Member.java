@@ -8,12 +8,11 @@ import com.epam.lab.intouch.api.model.project.Project;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
 public class Member {
 	@Expose
 	@SerializedName("login")
 	private String login;
-	
+
 	@Expose
 	@SerializedName("password")
 	private String password;
@@ -21,7 +20,7 @@ public class Member {
 	@Expose
 	@SerializedName("lastName")
 	private String lastName;
-	
+
 	@Expose
 	@SerializedName("firstName")
 	private String firstName;
@@ -93,19 +92,15 @@ public class Member {
 
 	@Override
 	public String toString() {
-		StringBuilder sb=new StringBuilder();
-		sb.append("\n Member login: ").append(login)
-		.append("\n Name: ").append(firstName)
-		.append("\n Surname: ").append(lastName)
-		.append("\n Project role: ").append(projectRole)
-		.append("\n Member projects: ");
-		
-		for(Project project: activeProjects){
-			sb.append(project.toString());
+		StringBuilder sb = new StringBuilder();
+		sb.append("\n Member login: ").append(login).append("\n Name: ").append(firstName).append("\n Surname: ").append(lastName).append("\n Project role: ")
+				.append(projectRole).append("\n Member projects: ");
+
+		for (Project project : activeProjects) {
+				sb.append(project.toString());
 		}
-		
+
 		return sb.toString();
 	}
 
-	
 }

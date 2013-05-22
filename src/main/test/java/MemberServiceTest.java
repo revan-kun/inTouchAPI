@@ -13,9 +13,11 @@ public class MemberServiceTest {
 //			System.out.println(memberService.getMiddleweightMember("testmanager@gmail.com", "1111"));
 //			System.out.println(memberService.getHeavyMember("testmanager@gmail.com", "1111"));
 			
-			System.out.println(memberService.getLightweightMember("superDev@gmail.com", "1111"));
-			System.out.println(memberService.getLightweightMember("superTester@gmail.com", "1111"));
-			
+
+			System.out.println(memberService.getLightweightMember("dobkin@epam.com", "1111"));
+			System.out.println(memberService.getMiddleweightMember("dobkin@epam.com", "1111"));
+			System.out.println(memberService.getHeavyMember("dobkin@epam.com", "1111"));
+
 		} catch (IOException e) {
 			System.out.println("fail");
 		}

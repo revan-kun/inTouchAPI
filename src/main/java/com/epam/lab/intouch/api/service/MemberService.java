@@ -24,15 +24,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class MemberService {
-	private static final String LIGHT_MEMBER = "lightMember";
-	private static final String MIDDLE_MEMBER = "middleMember";
-	private static final String HEAVY_MEMBER = "heavyMember";
-	private static final String MEMBER_LOGIN = "memberLogin";
 
 	private String getURL(String restServiceName) throws IOException {
 		StringBuilder urlBuilder = new StringBuilder();
 		urlBuilder.append(getProperty("protocol")).append(getProperty("host")).append(getProperty("port.separator")).append(getProperty("port"))
 				.append(getProperty("root.path")).append(getProperty("rest.path")).append(restServiceName);
+		
+		System.out.println(urlBuilder.toString());
+		
 		return urlBuilder.toString();
 	}
 
@@ -47,12 +46,17 @@ public class MemberService {
 	}
 
 	private Member deserializeMember(String json) {
+		
+		System.out.println(json);
+		
 		GsonBuilder builder = new GsonBuilder();
 		builder.excludeFieldsWithoutExposeAnnotation();
 
 		Gson gson = builder.create();
 		Member member = gson.fromJson(json, Member.class);
 
+		System.out.println(member);
+		
 		return member;
 	}
 
@@ -60,8 +64,8 @@ public class MemberService {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 
 		params.add(new BasicNameValuePair(Attribute.MEMBER_LOGIN, member.getLogin()));
-		params.add(new BasicNameValuePair(Attribute.PASSWORD_LOGIN, member.getPassword()));
-		params.add(new BasicNameValuePair(Attribute.MEMBER_TYPE, memberType));
+		params.add(new BasicNameValuePair(Attribute.MEMBER_PASSWORD, member.getPassword()));
+		params.add(new BasicNameValuePair(Attribute.MEMBER_WEIGHT, memberType));
 
 		HttpResponse response = executeRequest(params, getProperty("rest.login"));
 
@@ -88,7 +92,7 @@ public class MemberService {
 	}
 
 	public Member getLightweightMember(Member member) throws IOException {
-		Member loginedMember = getMember(member, LIGHT_MEMBER);
+		Member loginedMember = getMember(member, Attribute.LIGHT_MEMBER);
 		return loginedMember;
 	}
 
@@ -97,12 +101,12 @@ public class MemberService {
 	}
 
 	public Member getHeavyMember(Member member) throws IOException {
-		Member loginedMember = getMember(member, HEAVY_MEMBER);
+		Member loginedMember = getMember(member, Attribute.HEAVY_MEMBER);
 		return loginedMember;
 	}
 
 	public Member getMiddleweightMember(Member member) throws IOException {
-		Member loginedMember = getMember(member, MIDDLE_MEMBER);
+		Member loginedMember = getMember(member, Attribute.MIDDLE_MEMBER);
 		return loginedMember;
 	}
 
@@ -121,7 +125,7 @@ public class MemberService {
 		StringBuilder urlBuilder = new StringBuilder();
 
 		String url = getURL(getProperty("rest.photo"));
-		urlBuilder.append(url).append("?").append(MEMBER_LOGIN).append("=").append(member.getLogin());
+		urlBuilder.append(url).append("?").append(Attribute.MEMBER_LOGIN).append("=").append(member.getLogin());
 
 		return new URL(urlBuilder.toString()).openStream();
 	}
