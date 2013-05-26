@@ -28,8 +28,6 @@ public class PropertyConfigurator {
 		if (prop == null) {
 			prop = "";
 		}
-		
-		System.out.println("Property: "+prop);
 
 		return prop;
 	}
