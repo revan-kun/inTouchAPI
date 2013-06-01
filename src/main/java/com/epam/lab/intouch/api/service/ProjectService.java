@@ -16,10 +16,24 @@ import com.epam.lab.intouch.api.service.util.Attribute;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+/**
+ * @author Zatorsky D.B
+ * 
+ */
 public class ProjectService {
 	private static final String LIGHT_PROJECT = "lightProject";
 	private static final String MIDDLE_PROJECT = "middleProject";
 
+	/**
+	 * Builds URL for accessing to inTouch service provider
+	 * 
+	 * @param projectID
+	 *            project id
+	 * @param projectType
+	 *            project type (full project or project's info only)
+	 * @return URL to project service
+	 * @throws IOException
+	 */
 	private String getURL(Long projectID, String projectType) throws IOException {
 		StringBuilder urlBuilder = new StringBuilder();
 		urlBuilder.append(getProperty("protocol")).append(getProperty("host")).append(getProperty("port.separator")).append(getProperty("port"))
@@ -28,6 +42,13 @@ public class ProjectService {
 		return urlBuilder.toString();
 	}
 
+	/**
+	 * Deserializes project from json response
+	 * 
+	 * @param json
+	 *            response from inTouch server
+	 * @return Member object
+	 */
 	private Project deserializeProject(String json) {
 		GsonBuilder builder = new GsonBuilder();
 		builder.excludeFieldsWithoutExposeAnnotation();
@@ -38,6 +59,16 @@ public class ProjectService {
 		return deserializedProject;
 	}
 
+	/**
+	 * This method returns project in accordance to it's type (full project or project's info only).
+	 * 
+	 * @param project
+	 *            project object
+	 * @param projectType
+	 *            project type
+	 * @return project object
+	 * @throws IOException
+	 */
 	public Project getProgect(Project project, String projectType) throws IOException {
 		Long projectID = project.getId();
 
@@ -55,12 +86,28 @@ public class ProjectService {
 		return deserializedProject;
 	}
 
+	/**
+	 * This method provides light project - project with only information about project (without members on that project)
+	 * 
+	 * @param id
+	 *            project id
+	 * @return project with info
+	 * @throws IOException
+	 */
 	public Project getProgectInfo(Long id) throws IOException {
 		Project project = new Project();
 		project.setId(id);
 		return getProgect(project, LIGHT_PROJECT);
 	}
 
+	/**
+	 * This method provides project with information about it inside and also it includes members who works on the project.
+	 * 
+	 * @param id
+	 *            project id
+	 * @return full project with information and members inside
+	 * @throws IOException
+	 */
 	public Project getProgect(Long id) throws IOException {
 		Project project = new Project();
 		project.setId(id);

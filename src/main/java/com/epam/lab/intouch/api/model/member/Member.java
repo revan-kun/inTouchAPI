@@ -90,17 +90,4 @@ public class Member {
 		this.activeProjects = activeProjects;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("\n Member login: ").append(login).append("\n Name: ").append(firstName).append("\n Surname: ").append(lastName).append("\n Project role: ")
-				.append(projectRole).append("\n Member projects: ");
-
-		for (Project project : activeProjects) {
-				sb.append(project.toString());
-		}
-
-		return sb.toString();
-	}
-
 }
